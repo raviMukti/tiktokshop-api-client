@@ -1,0 +1,17 @@
+{
+    "name": "haistar/tiktokshop-api-client",
+    "description": "Unofficial Tiktok Shop API Client build in PHP",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Haistar\\TiktokshopApiClient\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "raviMukti",
+            "email": "shinjiravi@gmail.com"
+        }
+    ],
+    "require": {}
+}
