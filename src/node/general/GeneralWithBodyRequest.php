@@ -16,27 +16,27 @@ class GeneralWithBodyRequest
      * @param $body
      * @param TiktokApiConfig $TiktokApiConfig
      */
-    public static function makeMethod($httpMethod, $baseUrl, $apiPath, $params, $body, TiktokApiConfig $apiConfig){
+    public static function makeMethod($httpMethod, $baseUrl, $apiPath, $params, $body, TiktokApiConfig $apiConfig)
+    {
         // Validate Input
         /** @var TiktokApiConfig $apiConfig */
-        if ($apiConfig->getPartnerId() == "") throw new Exception("Input of [partner_id] is empty");
+        if ($apiConfig->getAppKey() == "") throw new Exception("Input of [app_key] is empty");
         if ($apiConfig->getSecretKey() == "") throw new Exception("Input of [secret_key] is empty");
 
         // Timestamp
         $timeStamp = time();
-        // Concatenate Base String
-        $baseString = $apiConfig->getPartnerId()."".$apiPath."".$timeStamp;
-        $signedKey = SignGenerator::generateSign($baseString, $apiConfig->getSecretKey());
-
+        
         $apiPath .= "?";
 
-        if ($params != null){
-            foreach ($params as $key => $value){
+        if ($params != null)
+        {
+            foreach ($params as $key => $value)
+            {
                 $apiPath .= "&". $key . "=" . urlencode($value);
             }
         }
 
-        $requestUrl = $baseUrl.$apiPath."&"."partner_id=".urlencode($apiConfig->getPartnerId())."&"."timestamp=".urlencode($timeStamp)."&"."sign=".urldecode($signedKey);
+        $requestUrl = $baseUrl.$apiPath;
 
         $guzzleClient = new Client([
             'base_uri' => $baseUrl,

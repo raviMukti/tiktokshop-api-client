@@ -11,7 +11,7 @@ namespace Haistar\TiktokshopApiClient\client;
 
 class TiktokApiConfig
 {
-    private $partnerId;
+    private $appKey;
     private $accessToken;
     private $refreshToken;
     private $shopId;
@@ -19,34 +19,36 @@ class TiktokApiConfig
 
     /** 
      * TiktokApiConfig constructor.
-     * @param string $partnerId
+     * @param string $appKey
      * @param string $accessToken
      * @param string $shopId
      * @param string $secretKey
      */
-    public function __construct($partnerId = "", $accessToken = "", $refreshToken = "", $shopId = "", $secretKey = "")
+    public function __construct($appKey = "", $accessToken = "", $refreshToken = "", $shopId = "", $secretKey = "")
     {
-        $this->partnerId = $partnerId;
+        $this->appKey = $appKey;
         $this->accessToken = $accessToken;
         $this->refreshToken = $refreshToken;
         $this->shopId = $shopId;
-        $this->secretKey = $secretKey;        
+        $this->secretKey = $secretKey; 
+    }
+
+     /**
+     * Get the value of appKey
+     */
+    public function getAppKey()
+    {
+        return $this->appKey;
     }
 
     /**
-     * @return mixed
+     * Set the value of appKey
      */
-    public function getPartnerId()
+    public function setAppKey($appKey): self
     {
-        return $this->partnerId;
-    }
+        $this->appKey = $appKey;
 
-    /**
-     * @param mixed $partnerId
-     */
-    public function setPartnerId($partnerId)
-    {
-        $this->partnerId = $partnerId;
+        return $this;
     }
 
     /**
