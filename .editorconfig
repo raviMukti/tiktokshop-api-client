@@ -1,0 +1,27 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+# insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[docker-compose.yml]
+indent_size = 4
+
+[*.php]
+php_diagnostic_php0413 = false
+php_diagnostic_php1409 = false
+php_diagnostic_php0413 = false
+php_diagnostic_php0413 = false
+php_diagnostic_php0405 = false
+php_diagnostic_php6401 = false
+php_diagnostic = true
