@@ -7,30 +7,33 @@
  * @since 24-03-2022
  */
 
-namespace Haistar\TiktokshopApiClient\client;
+namespace Aftwork\TiktokShop\Common;
 
-class TiktokApiConfig
+class TiktokShopConfig
 {
     private $appKey;
     private $accessToken;
     private $refreshToken;
     private $shopId;
     private $secretKey;
+    private $timeOut;
 
-    /** 
+    /**
      * TiktokApiConfig constructor.
      * @param string $appKey
      * @param string $accessToken
      * @param string $shopId
      * @param string $secretKey
+     * @param int $timeOut
      */
-    public function __construct($appKey = "", $accessToken = "", $refreshToken = "", $shopId = "", $secretKey = "")
+    public function __construct($appKey = "", $accessToken = "", $refreshToken = "", $shopId = "", $secretKey = "", $timeOut = 3)
     {
         $this->appKey = $appKey;
         $this->accessToken = $accessToken;
         $this->refreshToken = $refreshToken;
         $this->shopId = $shopId;
-        $this->secretKey = $secretKey; 
+        $this->secretKey = $secretKey;
+        $this->timeOut = $timeOut;
     }
 
      /**
@@ -114,5 +117,23 @@ class TiktokApiConfig
     public function setSecretKey($secretKey)
     {
         $this->secretKey = $secretKey;
+    }
+
+    /**
+     * Get the value of timeOut
+     */
+    public function getTimeOut()
+    {
+        return $this->timeOut;
+    }
+
+    /**
+     * Set the value of timeOut
+     */
+    public function setTimeOut($timeOut): self
+    {
+        $this->timeOut = $timeOut;
+
+        return $this;
     }
 }

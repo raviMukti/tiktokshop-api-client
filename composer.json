@@ -4,7 +4,7 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Haistar\\TiktokshopApiClient\\": "src/"
+            "Aftwork\\TiktokShop\\": "src/"
         }
     },
     "autoload-dev": {
