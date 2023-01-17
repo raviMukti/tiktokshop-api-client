@@ -4,29 +4,74 @@
 
 `composer require haistar/tiktokshop-api-client`
 
-### How To Use
+### Generate Authorization URL
 
 ```
-$tiktokApiConfig = new TiktokApiConfig();
-$tiktokApiConfig->setAppKey($_ENV["APP_KEY"]);
-$tiktokApiConfig->setSecretKey($_ENV["APP_SECRET"]);
-$tiktokApiConfig->setAccessToken($_ENV["ACCESS_TOKEN"]);
-$tiktokApiConfig->setShopId($_ENV["SHOP_ID"]);
-        
+$authUrl = TiktokShopAuthResource::generateAuthUrl($_ENV["AUTH_URL"], $_ENV["APP_KEY"]);
+```
+
+### Get Access Token
+
+```
+$tiktokShopConfig = new TiktokShopConfig();
+$tiktokShopConfig->setAppKey($_ENV["APP_KEY"]);
+$tiktokShopConfig->setSecretKey($_ENV["APP_SECRET"]);
+
+$tiktokAuthResource = new TiktokShopAuthResource();
+
+$baseUrl = $_ENV["AUTH_URL"];
+$apiAccessToken = "/api/v2/token/get";
+
+$params = [
+    "auth_code" => $_ENV["AUTH_CODE"],
+    "grant_type" => "authorized_code",
+];
+
+$response = $tiktokAuthResource->httpCallGet($baseUrl, $apiAccessToken, $params, $tiktokShopConfig);
+
+$this->assertEquals("0", $response->code);
+$this->assertEquals("success", $response->success);
+```
+
+### Renew Refresh Token
+
+```
+$tiktokShopConfig = new TiktokShopConfig();
+$tiktokShopConfig->setAppKey($_ENV["APP_KEY"]);
+$tiktokShopConfig->setSecretKey($_ENV["APP_SECRET"]);
+
+$tiktokAuthResource = new TiktokShopAuthResource();
+
+$baseUrl = $_ENV["AUTH_URL"];
+$apiRenewRefreshToken = "/api/v2/token/refresh";
+
+$params = [
+    "refresh_token" => $_ENV["REFRESH_TOKEN"],
+    "grant_type" => "refresh_token",
+];
+
+$response = $tiktokAuthResource->httpCallGet($baseUrl, $apiRenewRefreshToken, $params, $tiktokShopConfig);
+
+$this->assertEquals("0", $response->code);
+$this->assertEquals("success", $response->success);
+```
+
+### TiktokShop Global API
+
+```
+$tiktokShopConfig = new TiktokShopConfig();
+$tiktokShopConfig->setAppKey($_ENV["APP_KEY"]);
+$tiktokShopConfig->setSecretKey($_ENV["APP_SECRET"]);
+$tiktokShopConfig->setAccessToken($_ENV["ACCESS_TOKEN"]);
+
+$tiktokGeneralResource = new TiktokShopGeneralResource();
+
 $baseUrl = $_ENV["SERVER_URL"];
-$apiPath = "/api/products/search";
+$apiAuthorizedShop = "/api/shop/get_authorized_shop";
 
-$params = array(
-     "app_key" => $tiktokApiConfig->getAppKey(),
-     "shop_id" => $tiktokApiConfig->getShopId(),
-     "access_token" => $tiktokApiConfig->getAccessToken(),
-);
+$response = $tiktokGeneralResource->httpCallGet($baseUrl, $apiAuthorizedShop, [], $tiktokShopConfig);
 
-$body = array(
-    "page_number" => 1,
-    "page_size" =>  100,
-    "search_status" => 0 // 0-all、1-draft、2-pending、3-failed、4-live、5-seller_deactivated、6-platform_deactivated、7-freeze
-);
-
-$responseProductList = $tiktokApiClient->httpCallPost($baseUrl, $apiPath, $params, $body,$tiktokApiConfig);
+$this->assertEquals(0, $response->code);
+$this->assertEquals($_ENV["SELLER_NAME"], $response->data->shop_list[0]->shop_name);
 ```
+
